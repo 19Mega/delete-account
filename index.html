@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eliminar cuenta - Super Survival</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 {
+      color: #ff5f5f;
+    }
+    label, input, button {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.7rem;
+      background-color: #ff5f5f;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+    button:hover {
+      background-color: #e04b4b;
+    }
+    .mensaje {
+      margin-top: 2rem;
+      color: #90ee90;
+    }
+  </style>
+</head>
+<body>
+  <h1>Eliminar cuenta - Super Survival</h1>
+  <p>Si deseas eliminar tu cuenta y todos los datos asociados, introduce tu ID de jugador a continuación y presiona el botón.</p>
+  <form id="deleteForm">
+    <label for="playerId">Tu ID de jugador:</label>
+    <input type="text" id="playerId" name="playerId" required />
+    <button type="submit">Eliminar cuenta y datos</button>
+  </form>
+  <div id="mensaje" class="mensaje"></div>
+
+  <script>
+    const form = document.getElementById('deleteForm');
+    const mensaje = document.getElementById('mensaje');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const playerId = document.getElementById('playerId').value.trim();
+
+      // Aquí puedes hacer una solicitud al backend para eliminar los datos
+      try {
+        const res = await fetch('https://tudominio.com/api/delete-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ playerId }),
+        });
+
+        if (res.ok) {
+          mensaje.textContent = 'Tu cuenta ha sido eliminada correctamente.';
+          form.reset();
+        } else {
+          mensaje.textContent = 'No se pudo eliminar la cuenta. Intenta nuevamente.';
+        }
+      } catch (error) {
+        mensaje.textContent = 'Ocurrió un error. Intenta más tarde.';
+      }
+    });
+  </script>
+</body>
+</html>
